@@ -14,7 +14,7 @@ export default class GameMap {
     this.lastDownTime = 0;
     this.arrBlocks = [];
     this.newBlockType = "";
-    this.downInterval = 1 * 100;
+    this.downInterval = 1 * 1000;
 
     for (let i = 0; i < this.row; i++) {
       let column = [];
@@ -53,16 +53,17 @@ export default class GameMap {
     this.setBlockColor(p5, firstBlock.type);
     firstBlock.draw(p5, this.cellWidth, this.cellHeight);
     p5.text("New Block" + this.newBlockType, this.width + 100, 100);
+    p5.text("NumBlocks: " + this.arrBlocks.length, this.width + 100, 200);
   }
   generateBlock(p5) {
     while (this.arrBlocks.length < 5) {
       let newBlock = new Block(
         p5,
-        p5.random(["I", "J", "L", "O", "S", "T", "Z"])
+        // p5.random(["I", "J", "L", "O", "S", "T", "Z"])
+        "I"
       );
       this.arrBlocks.push(newBlock);
     }
-    console.log("gen", JSON.stringify(this.arrBlocks));
   }
   checkBlock(p5, block) {
     let found = false;
@@ -127,6 +128,22 @@ export default class GameMap {
     } else {
       p5.noFill();
       p5.noStroke();
+    }
+  }
+  keyPressed(p5, event) {
+    // console.log("key", typeof(event.key));
+    let firstBlock = this.arrBlocks[0];
+    if (event.key === "ArrowLeft") {
+      console.log("left");
+      if (firstBlock.col > 1) firstBlock.col -= 1;
+    } else if (event.key === "ArrowRight") {
+      console.log("left");
+      if (firstBlock.col < this.column - 3) firstBlock.col += 1;
+    } else if (event.key === "ArrowDown") {
+      console.log("down");
+      firstBlock.row += 1;
+    } else if (event.key === "ArrowUp") {
+      firstBlock.rotate();
     }
   }
 }

@@ -28,7 +28,7 @@ let sketch = function(p) {
     p.resizeCanvas(p.windowWidth, p.windowHeight);
   };
   p.keyPressed = event => {
-    console.log("event", event.key, event.shiftKey);
+    gameMap.keyPressed(p, event);
   };
 };
 
